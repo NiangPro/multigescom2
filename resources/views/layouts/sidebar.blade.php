@@ -58,13 +58,16 @@
           <li class="@if ($page == "vente") active @endif"><a class="nav-link" href="{{route('vente')}}"><i class="fa fa-shopping-cart" aria-hidden="true"></i> <span>Ventes</span></a></li>
           <li class="@if ($page == "rapport") active @endif"><a class="nav-link" href="{{route('rapport')}}"><i class="fas fa-chart-bar" aria-hidden="true"></i> <span>Rapports</span></a></li>
           @endif
-          @if (Auth()->user()->isSuperAdmin())
+          @if (!Auth()->user()->isSuperAdmin())
           <li class="@if ($page == "reunion") active @endif"><a class="nav-link" href="{{route('reunion')}}"><i class="fa fa-handshake" aria-hidden="true"></i> <span>Réunions</span></a></li>
             <li class="@if ($page == "tache") active @endif"><a class="nav-link" href="{{route('tache')}}"><i class="fas fa-edit" aria-hidden="true"></i> <span>Tâches</span></a></li>
             @endif
             @endif
             <li class="@if ($page == "history") active @endif"><a class="nav-link" href="{{route('history')}}"><i class="fa fa-history" aria-hidden="true"></i> <span>Historiques</span></a></li>
             <li class="@if ($page == "message") active @endif"><a class="nav-link" href="{{route('message')}}"><i class="fa fa-envelope-open" aria-hidden="true"></i> <span>Messages</span></a></li>
+            @if (Auth()->user()->isSuperAdmin())
+            <li class="@if ($page == "message") active @endif"><a class="nav-link" href="{{route('abonnement')}}"><i class="fa fa-money-bill" aria-hidden="true"></i> <span>Abonnements</span></a></li>
+          @endif
           @if(Auth()->user()->isOpen())
           <li class="menu-header">Configurations </li>
           <li class="nav-item dropdown @if ($page == "profil" || $page == "password"  || $page == "general") active @endif">

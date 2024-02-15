@@ -49,7 +49,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-              @if ($role !=="Super Admin")            
+              @if (Auth()->user()->role !=="Super Admin")            
                 <div class="form-group">
                     <div class="input-group mb-2">
                       <div class="input-group-prepend">

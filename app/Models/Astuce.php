@@ -464,6 +464,15 @@ class Astuce extends Model
                 'password'=>'$2y$10$rAVZ/DGGDV5KooV1NqJ48Om35GkkYcqFd/lAkehgzA3.D5A5YcrtC',
             ]);
         }
+
+        $pa = ParamAbonnement::first();
+
+        if(!$pa){
+            ParamAbonnement::create([
+                "mensuel" => 0,
+                "annuel" => 0,
+            ]);
+        }
     }
 
     public function superAdmins()

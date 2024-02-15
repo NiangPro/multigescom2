@@ -2,34 +2,14 @@
     <div class="forms-container">
       <div class="signin-signup">
         <form wire:submit.prevent="connecter"  class="sign-in-form">
-          <h2 class="title">Connexion</h2>
+          <h4 class="title">Mot de passe oublié</h4>
           <div class="input-field">
             <i class="fas fa-user"></i>
             <input type="email" wire:model="form.email" placeholder="Email" required/>
           </div>
-          <div class="input-field">
-            <i class="fas fa-lock"></i>
-            <input type="password" wire:model="form.password" placeholder="Mot de passe" required/>
-          </div>
-          <div>
-            <strong> Mot de passe oublié </strong> <a href="{{route('passwordforget')}}" style="text-decoration: none;">Cliquez ici</a>
-          </div>
-          <input type="submit" value="Se connecter" class="btn solid" />
-          <p class="social-text">Suivez-nous sur les reseaux sociaux</p>
-          <div class="social-media">
-            <a href="#" class="social-icon">
-              <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="#" class="social-icon">
-              <i class="fab fa-twitter"></i>
-            </a>
-            <a href="#" class="social-icon">
-              <i class="fab fa-google"></i>
-            </a>
-            <a href="#" class="social-icon">
-              <i class="fab fa-linkedin-in"></i>
-            </a>
-          </div>
+          <input type="submit" value="Envoyer" class="btn solid" />
+          <a href="{{route('login')}}"   >Connexion</a>
+          
         </form>
       </div>
     </div>

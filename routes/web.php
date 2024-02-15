@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Livewire\Abonnement;
 use App\Http\Livewire\Admins;
 use App\Http\Livewire\Clients;
 use App\Http\Livewire\Commercial;
@@ -19,6 +20,7 @@ use App\Http\Livewire\Messages;
 use App\Http\Livewire\Users;
 use App\Http\Livewire\Profil;
 use App\Http\Livewire\Password;
+use App\Http\Livewire\PasswordForget;
 use App\Http\Livewire\PayError;
 use App\Http\Livewire\PaySuccess;
 use App\Http\Livewire\Produits;
@@ -66,4 +68,6 @@ Route::get('/ipn_url', Ipn::class)->name('ipn_url');
 Route::get('/url_pay_success', PaySuccess::class)->name('url_pay_success');
 Route::get('/url_pay_error', PayError::class)->name('url_pay_error');
 Route::get('/mot_de_passe', Password::class)->name('password');
+Route::get('/abonnements', Abonnement::class)->name('abonnement');
+Route::get('/mot_de_passe_oublie', PasswordForget::class)->name('passwordforget');
 Route::get('/configuration_generale', General::class)->name('general');

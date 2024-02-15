@@ -8,6 +8,7 @@ use App\Models\Astuce;
 use App\Models\Entreprise;
 use App\Models\Historique;
 use App\Models\Messenger;
+use App\Models\ParamAbonnement;
 use App\Models\Paytech;
 use App\Models\Todolist;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +22,7 @@ class Home extends Component
     protected $paginationTheme = 'bootstrap';
 
     public $astuce;
+    public $allClients;
     public $todo = "list";
     public $current_todo;
     public $pageName;
@@ -37,6 +39,14 @@ class Home extends Component
     public $print;
     public $idDeleting;
     public $paytech;
+    public $renew;
+    public $total = 0;
+    public $abmt;
+
+    public $formAbmt =[
+        "type" => "mois",
+        "nombre" => 1,
+    ];
 
     public $dataSuperAdmin = [
         'nbreEntreprise',
@@ -95,6 +105,16 @@ class Home extends Component
         $this->etat =  $etat;
     }
 
+    public function lunchRenew()
+    {
+        $this->renew = 1;
+    }
+
+    public function resetRenew()
+    {
+        $this->renew = 0;
+    }
+
     public function formadd()
     {
         $this->todo = "add";
@@ -109,6 +129,19 @@ class Home extends Component
     {
         $this->todo = $this->etat == "add"? "list":"add";
 
+    }
+
+    public function changeAbmt()
+    {
+        if ($this->formAbmt["type"] == "mois") {
+            $this->total = $this->abmt->mensuel * $this->formAbmt['nombre'];
+        }else{
+            $this->total = $this->abmt->annuel * $this->formAbmt['nombre'];
+        }
+    }
+
+    public function payer(){
+        $this->paytech->generatePaymentLink($this->formAbmt["type"], $this->formAbmt["nombre"]);
     }
 
     public function getTodo($id){
@@ -151,24 +184,6 @@ class Home extends Component
             $this->todoFormInit();
 
             $this->todo = "list";
-        }
-    }
-
-    public function payer()
-    {
-        $response = $this->paytech->send("200", "Abonnement", uniqid());
-
-        //  dd($response);
-
-        if (isset($response["success"]) && $response["success"] != -1) {
-            
-            return redirect()->away($response["redirect_url"]);
-        }
-
-        if (isset($response["errors"])) {
-            $this->dispatchBrowserEvent('display-errors', [
-                'errors' => $response["errors"],
-            ]);
         }
     }
 
@@ -215,6 +230,7 @@ class Home extends Component
     {
         $this->astuce = new Astuce();
         $this->paytech = new Paytech();
+      
         if(isset(Auth::user()->entreprise_id) && Auth::user()->entreprise_id !== null){
             if(Auth::user()->isAdmin()){
                 $this->today = Auth::user()->entreprise->fermeture;
@@ -310,5 +326,9 @@ class Home extends Component
         }else{
             $this->pageName = "home-employe";
         }
+
+        $this->abmt = ParamAbonnement::first();
+
+        $this->total = $this->abmt->mensuel;
     }
 }
