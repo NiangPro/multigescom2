@@ -1,16 +1,37 @@
 <div class="container">
     <div class="forms-container">
       <div class="signin-signup">
-        <form wire:submit.prevent="connecter"  class="sign-in-form">
-          <h4 class="title">Mot de passe oublié</h4>
-          <div class="input-field">
-            <i class="fas fa-user"></i>
-            <input type="email" wire:model="form.email" placeholder="Email" required/>
-          </div>
-          <input type="submit" value="Envoyer" class="btn solid" />
-          <a href="{{route('login')}}"   >Connexion</a>
-          
-        </form>
+        @if(!$trouve)
+          <form wire:submit.prevent="isExiste"  class="sign-in-form">
+            <h4 class="title">Confirmez si c'est vous</h4>
+            <div class="input-field">
+              <i class="fas fa-user"></i>
+              <input type="email" wire:model="form.email" placeholder="Email" required/>
+            </div>
+            <div class="input-field">
+              <i class="fas fa-phone"></i>
+              <input type="tel" wire:model="form.tel" placeholder="Téléphone" required/>
+            </div>
+            <input type="submit" value="Confirmer" class="btn solid" />
+            <a href="{{route('login')}}"   >Connexion</a>
+            
+          </form>
+        @else
+          <form wire:submit.prevent="isExiste"  class="sign-in-form">
+            <h4 class="title">Mot de passe oublié</h4>
+            <div class="input-field">
+              <i class="fas fa-lock"></i>
+              <input type="password" wire:model="form.password" placeholder="Nouveau Mot de passe" required/>
+            </div>
+            <div class="input-field">
+              <i class="fas fa-lock"></i>
+              <input type="password" wire:model="form.password_confirmation" placeholder="Confirmer mot de passe" required/>
+            </div>
+            <input type="submit" value="Envoyer" class="btn solid" />
+            <a href="{{route('login')}}"   >Connexion</a>
+            
+          </form>
+        @endif
       </div>
     </div>
 
