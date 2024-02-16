@@ -6,26 +6,46 @@
             <h4 class="title">Confirmez si c'est vous</h4>
             <div class="input-field">
               <i class="fas fa-user"></i>
-              <input type="email" wire:model="form.email" placeholder="Email" required/>
+              <input type="email" wire:model="form.email" class="@error('form.email') is-invalid @enderror" placeholder="Email" required/>
+              @error('form.email')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+              @enderror
             </div>
             <div class="input-field">
               <i class="fas fa-phone"></i>
-              <input type="tel" wire:model="form.tel" placeholder="Téléphone" required/>
+              <input type="tel" wire:model="form.tel" class="@error('form.tel') is-invalid @enderror" placeholder="Téléphone" required/>
+              @error('form.tel')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+              @enderror
             </div>
             <input type="submit" value="Confirmer" class="btn solid" />
             <a href="{{route('login')}}"   >Connexion</a>
             
           </form>
         @else
-          <form wire:submit.prevent="isExiste"  class="sign-in-form">
+          <form wire:submit.prevent="editPassword"  class="sign-in-form">
             <h4 class="title">Mot de passe oublié</h4>
             <div class="input-field">
               <i class="fas fa-lock"></i>
-              <input type="password" wire:model="form.password" placeholder="Nouveau Mot de passe" required/>
+              <input type="password" wire:model="form2.password" class="@error('form2.password') is-invalid @enderror" placeholder="Nouveau Mot de passe" required/>
+              @error('form2.password')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+              @enderror
             </div>
             <div class="input-field">
               <i class="fas fa-lock"></i>
-              <input type="password" wire:model="form.password_confirmation" placeholder="Confirmer mot de passe" required/>
+              <input type="password" wire:model="form2.password_confirmation" class="@error('form2.password_confirmation') is-invalid @enderror" placeholder="Confirmer mot de passe" required/>
+              @error('form2.password_confirmation')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+              @enderror
             </div>
             <input type="submit" value="Envoyer" class="btn solid" />
             <a href="{{route('login')}}"   >Connexion</a>
@@ -70,10 +90,10 @@
       window.addEventListener('errorLogin', event =>{
           iziToast.error({
           title: 'Connexion',
-          message: 'Email ou mot de passe incorrect',
+          message: 'Email ou Téléphone non identique',
           position: 'topRight'
           });
-      })
+      });
 
       window.addEventListener('accessDenied', event =>{
           iziToast.error({
@@ -81,7 +101,16 @@
           message: 'Votre espace est fermé, Veuillez renouveler votre abonnement svp!',
           position: 'topRight'
           });
-      })
+      });
+
+      window.addEventListener('passwordEditSuccessful', event =>{
+        iziToast.success({
+        title: 'Mot de passe',
+        message: 'Mis à jour avec succes',
+        position: 'topRight'
+        });
+    });
+
   </script>
 
   @endsection
