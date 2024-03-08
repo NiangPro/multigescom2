@@ -49,13 +49,13 @@
                 </div>
             </div>
             <div class="col-md-6">
-              @if (Auth()->user()->role !=="Super Admin")            
+              {{-- @if (Auth()->user()->role !=="Super Admin")             --}}
                 <div class="form-group">
                     <div class="input-group mb-2">
                       <div class="input-group-prepend">
                         <div class="input-group-text">Entreprise</div>
                       </div>
-                      @if (Auth()->user()->role === 'Super Admin')
+                      {{-- @if (Auth()->user()->role === 'Super Admin') --}}
                       
                         <select class="form-control @error('form.entreprise_id') is-invalid @enderror"  wire:model="form.entreprise_id">
                           <option></option>
@@ -70,12 +70,12 @@
                               <strong>{{ $message }}</strong>
                           </span>
                         @enderror
-                      @else
+                      {{-- @else --}}
                       <input type="text" readonly class="form-control" value="{{ Auth()->user()->entreprise->nom }}" placeholder="{{ Auth()->user()->entreprise->nom }}"> 
-                      @endif
+                      {{-- @endif --}}
                     </div>
                 </div>
-              @endif
+              {{-- @endif --}}
             </div>
 
 
