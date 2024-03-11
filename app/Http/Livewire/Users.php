@@ -27,7 +27,7 @@ class Users extends Component
     public $astuce;
     public $user;
     public $idDeleting;
-    public $role = "";
+    public $role = "Super Admin";
 
     public $form = [
         'id' => null,
@@ -57,7 +57,7 @@ class Users extends Component
         'form.role' => 'required|string',
         'form.tel' => ['required', 'min:9', 'max:9', 'regex:/^[33|70|75|76|77|78]+[0-9]{7}$/'],
         'form.sexe' => 'required|string',
-        'form.entreprise_id' => 'required',
+        'form.entreprise_id' => 'nullable',
         'form.email' => ['required', 'email', 'unique:users,email'],
         'form.password' => 'required|string|min:6|confirmed',
     ];
@@ -223,6 +223,7 @@ class Users extends Component
 
     public function changeEvent(){
         $this->role = $this->form['role'];
+        // dd($this->role);
     }
 
     public function store()
@@ -238,9 +239,9 @@ class Users extends Component
                 'form.tel' => ['required', 'min:9', 'max:9', 'regex:/^[33|70|75|76|77|78]+[0-9]{7}$/'],
             ]);
 
-            $user->email = ucfirst($this->form['email']);
+            $user->email = $this->form['email'];
             $user->prenom = ucfirst($this->form['prenom']);
-            $user->nom = $this->form['nom'];
+            $user->nom = ucfirst($this->form['nom']);
             $user->tel = $this->form['tel'];
             $user->entreprise_id = $this->form['entreprise_id'];
 
@@ -255,6 +256,7 @@ class Users extends Component
             if($this->role =="Super Admin"){
                 $this->form['entreprise_id'] = Auth()->user()->entreprise_id;
             }
+
             $this->validate();
 
             if(empty($this->form['sexe'])){

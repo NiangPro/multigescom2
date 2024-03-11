@@ -16,11 +16,16 @@
             <tbody>
                 @foreach ($venteItem as $vente)
                     <tr>
-                        <td class="text-dark strong">{{$vente->nom}}</td>
-                        <td>{{$vente->ventes->montant}} CFA</td>
-                        <td>{{$vente->ventes->client->nom}}</td>
-                        <td>{{date("d/m/Y", strtotime($vente->ventes->date))}}</td>
-                        <td>{{$vente->ventes->employe->prenom}} {{$vente->ventes->employe->nom}}</td>
+                        <td class="text-dark strong">
+                            @foreach ($vente->ventes_items as $item)
+                                {{$item['nom']}} <br>
+                            @endforeach
+                            {{-- {{$vente->nom}} --}}
+                        </td>
+                        <td>{{$vente->montant}} CFA</td>
+                        <td>{{$vente->client->nom}}</td>
+                        <td>{{date("d/m/Y", strtotime($vente->date))}}</td>
+                        <td>{{$vente->employe->prenom}} {{$vente->employe->nom}}</td>
                         <td>
                             <div class="d-flex">
                                 <button  class="btn btn-icon btn-outline-info btn-sm" wire:click.prevent="getVentes({{$vente->id}})"><i class="far fa-eye"></i></button>

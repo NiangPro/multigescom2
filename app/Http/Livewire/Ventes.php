@@ -97,7 +97,7 @@ class Ventes extends Component
         $this->validate();
 
         if($this->emptyDevisItem($this->tab_product)){
-            $vente = Vente::create([
+            $vente = ModelsVente::create([
                 'client_id' => $this->form['client_id'],
                 'employe_id' => $this->form['employe_id'],
                 'description' => $this->form['description'],

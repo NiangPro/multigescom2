@@ -7,6 +7,7 @@ use App\Models\Entreprise;
 use App\Models\Messenger;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -18,6 +19,7 @@ class Profil extends Component
     public $astuce;
     public $profil;
     public $etat = "info";
+    public $role;
 
     public $form = [
         'id' => null,
@@ -132,7 +134,7 @@ class Profil extends Component
         }
 
         $this->user = Auth::user();
-
+        $this->role = $this->user->role;
         $this->form['prenom'] = $this->user->prenom;
         $this->form['nom'] = $this->user->nom;
         $this->form['role'] = $this->user->role;

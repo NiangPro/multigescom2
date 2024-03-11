@@ -3,7 +3,7 @@
       <div class="sidebar-brand">
         <a href="{{route("home")}}">
             <figure >
-                <img class="avatar mr-2" src="{{asset('storage/images/'.Auth()->user()->entreprise->profil)}}" alt="logo">{{Auth()->user()->entreprise->nom}}
+                <img style="width: 50px!important; height: 48px!important;" class=" avatar mr-2" src="{{asset('storage/images/'.Auth()->user()->entreprise->profil)}}" alt="logo">{{Auth()->user()->entreprise->nom}}
                
               </figure>
             </a>

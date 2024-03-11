@@ -11,7 +11,7 @@
     <ul class="navbar-nav navbar-right">
 
       <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-        <img alt="image" src="{{asset('storage/images/'.Auth()->user()->profil)}}" height="40" width="100" class="rounded-circle mr-1">
+        <img alt="image" src="{{asset('storage/images/'.Auth()->user()->profil)}}" height="40" width="100" style="width: 40px!important" class="rounded-circle mr-1">
         <div class="d-sm-none d-lg-inline-block">Bienvenu, {{Auth()->user()->prenom}}</div></a>
         <div class="dropdown-menu dropdown-menu-right">
           @if(Auth()->user()->isOpen())

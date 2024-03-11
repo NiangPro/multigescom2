@@ -17,23 +17,31 @@
                 <tbody>
                     @foreach ($devisItem as $dev)
                         <tr>
-                            <td class="text-dark strong">{{$dev->devis->client->nom}}</td>
-                            <td>{{$dev->nom}}</td>
+                            <td class="text-dark strong">
+                                @foreach ($dev->devis_items as $item)
+                                    {{$item['nom']}} <br>
+                                @endforeach
+                            </td>
+                            <td>
+                                @foreach ($dev->devis_items as $item)
+                                    {{$item['nom']}} <br>
+                                @endforeach
+                            </td>
                             <td>{{$dev->montant}} CFA</td>
-                            <td>{{$dev->devis->employe->prenom}} {{$dev->devis->employe->prenom}}</td>
-                            <td>{{ date("d/m/Y", strtotime($dev->devis->date))}}</td>
+                            <td>{{$dev->employe->prenom}} {{$dev->employe->prenom}}</td>
+                            <td>{{ date("d/m/Y", strtotime($dev->date))}}</td>
                             <td>
                                 <div class="text-small font-weight-600
-                                    @if ($dev->devis->statut==='Envoyé')
+                                    @if ($dev->statut==='Envoyé')
                                         text-info
-                                    @elseif($dev->devis->statut==='Validé')
+                                    @elseif($dev->statut==='Validé')
                                         text-success
-                                    @elseif($dev->devis->statut==='Brouillon')
+                                    @elseif($dev->statut==='Brouillon')
                                         text-dark
                                     @else
                                         text-muted
                                     @endif">
-                                    <i class="fas fa-circle"></i> {{$dev->devis->statut}}
+                                    <i class="fas fa-circle"></i> {{$dev->statut}}
                                 </div>
                             </td>
                             <td>

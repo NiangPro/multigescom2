@@ -34,7 +34,7 @@ class Password extends Component
     public function editPassword(){
         $this->validate();
 
-        if (Auth::check($this->form['current_password'], Auth::user()->password) == 0) {
+        if (Hash::check($this->form['current_password'], Auth::user()->password) == 0) {
             $user = User::where('id', Auth::user()->id)->first();
 
             $user->password = Hash::make($this->form['password']);

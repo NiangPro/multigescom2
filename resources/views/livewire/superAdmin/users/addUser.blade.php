@@ -49,7 +49,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-              @if (Auth()->user()->role !=="Super Admin")            
+              @if ($role !=="Super Admin")            
                 <div class="form-group">
                     <div class="input-group mb-2">
                       <div class="input-group-prepend">
@@ -85,24 +85,22 @@
             <label class="form-label">Rôle</label>
             <div class="selectgroup selectgroup-pills" wire:change="changeEvent">
               <label class="selectgroup-item">
-                <input type="radio" name="role" wire:model="form.role" value="Super Admin" class="selectgroup-input" checked="">
-            <span class="selectgroup-button">Super Admin</span>
+                <input type="radio" name="role" wire:model="form.role" wire:change="changeEvent" value="Super Admin" class="selectgroup-input" checked="">
+                <span class="selectgroup-button">Super Admin</span>
               </label>
               <label class="selectgroup-item">
-                <input type="radio" name="role" wire:model="form.role" value="Admin" class="selectgroup-input">
+                <input type="radio" name="role" wire:model="form.role" wire:change="changeEvent" value="Admin" class="selectgroup-input">
                 <span class="selectgroup-button">Admin</span>
               </label>
-              {{-- @if (isset(Auth()->user()->role) && Auth()->user()->role !== "Super Admin")
-
-              <label class="selectgroup-item">
-                <input type="radio" name="role" wire:model="form.role" value="Comptable" class="selectgroup-input">
-                <span class="selectgroup-button">Comptable</span>
-              </label>
-              <label class="selectgroup-item">
-                <input type="radio" name="role" wire:model="form.role" value="Commercial" class="selectgroup-input" checked="">
-                <span class="selectgroup-button">Commercial</span>
-              </label>
-
+              {{-- @if (isset($role) && $role == "Admin")
+                <label class="selectgroup-item">
+                  <input type="radio" name="role" wire:model="form.role" value="Comptable" class="selectgroup-input">
+                  <span class="selectgroup-button">Comptable</span>
+                </label>
+                <label class="selectgroup-item">
+                  <input type="radio" name="role" wire:model="form.role" value="Commercial" class="selectgroup-input" checked="">
+                  <span class="selectgroup-button">Commercial</span>
+                </label>
               @endif --}}
               @error('form.role')
                 <span class="invalid-feedback" role="alert">
