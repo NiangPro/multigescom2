@@ -66,7 +66,7 @@
             <li class="@if ($page == "history") active @endif"><a class="nav-link" href="{{route('history')}}"><i class="fa fa-history" aria-hidden="true"></i> <span>Historiques</span></a></li>
             <li class="@if ($page == "message") active @endif"><a class="nav-link" href="{{route('message')}}"><i class="fa fa-envelope-open" aria-hidden="true"></i> <span>Messages</span></a></li>
             @if (Auth()->user()->isSuperAdmin())
-            <li class="@if ($page == "message") active @endif"><a class="nav-link" href="{{route('abonnement')}}"><i class="fa fa-money-bill" aria-hidden="true"></i> <span>Abonnements</span></a></li>
+            <li class="@if ($page == "abonnement") active @endif"><a class="nav-link" href="{{route('abonnement')}}"><i class="fa fa-money-bill" aria-hidden="true"></i> <span>Abonnements</span></a></li>
           @endif
           @if(Auth()->user()->isOpen())
           <li class="menu-header">Configurations </li>

@@ -2,17 +2,148 @@
 
 namespace App\Models;
 
-use GuzzleHttp\Exception\RequestException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Request;
 
-class Paytech extends Model
+class PayTech extends Model
 {
     use HasFactory;
 
-    public function post($url, $data = [], $header = [])
+    /**
+     * @var string
+     */
+    const URL = "https://paytech.sn";
+    const PAYMENT_REQUEST_PATH = '/api/payment/request-payment';
+    const PAYMENT_REDIRECT_PATH = '/payment/checkout/';//todo
+    //const URL = "http://localhost:5008";//todo
+    const MOBILE_CANCEL_URL = "https://9a38-41-82-35-228.ngrok-free.app";
+    const MOBILE_SUCCESS_URL = "https://9a38-41-82-35-228.ngrok-free.app/url_pay_success";
+    /**
+     * @var string
+     */
+    private $apiKey;
+    /**
+     * @var string
+     */
+    private $apiSecret;
+    /**
+     * @var array
+     */
+    private $query = [];
+
+    private $params = [];
+
+    /**
+     * @var array
+     */
+    private $customeField = [];
+
+    private $liveMode = true;
+
+    private $testMode = false;
+
+    private $isMobile = false;
+
+    private $currency = 'XOF';
+
+    private $refCommand = '';
+
+    private $notificationUrl = [];
+
+
+    public function __construct()
+    {
+        $this->setApiKey("2da04a187cb6b2fb9a2793598c5110657f71bdbf1e66b8d0f44f2ce08f069280");
+        $this->setApiSecret("50b3a651014c9bc09dfe07c00cbab13a524b9fa805f01568d08b6015f0985d57");
+
+        if (!empty($_POST['is_mobile']) && $_POST['is_mobile'] === 'yes') {
+            $this->isMobile = true;
+        }
+    }
+
+    /**
+     * @param string $apiKey
+     */
+    public function setApiKey($apiKey)
+    {
+        $this->apiKey = $apiKey;
+    }
+
+    /**
+     * @param string $apiSecret
+     */
+    public function setApiSecret($apiSecret)
+    {
+        $this->apiSecret = $apiSecret;
+    }
+
+    /**
+     * @return array
+     */
+    public function send($prix, $ref)
+    {
+
+        $params = [
+            // 'item_name' => PayTech::arrayGet($this->query, 'item_name'),
+            'item_name' => "Revouvellement",
+            // 'item_price' => PayTech::arrayGet($this->query, 'item_price'),
+            'item_price' => $prix,
+            // 'command_name' => PayTech::arrayGet($this->query, 'command_name'),
+            'command_name' => 'Gestion commerciale',
+            // 'ref_command' => $this->refCommand,
+            'ref_command' => $ref,
+            'env' => ($this->testMode) ? 'test' : 'prod',
+            'currency' => $this->currency,
+            'ipn_url' => PayTech::arrayGet($this->notificationUrl, 'https://9a38-41-82-35-228.ngrok-free.app'),
+            'success_url' => $this->isMobile ? $this::MOBILE_SUCCESS_URL : PayTech::arrayGet($this->notificationUrl, 'success_url'),
+            'cancel_url' => $this->isMobile ? $this::MOBILE_CANCEL_URL : PayTech::arrayGet($this->notificationUrl, 'cancel_url'),
+            'custom_field' => json_encode($this->customeField)
+        ];
+
+        
+        $rawResponse = PayTech::post('https://paytech.sn/api/payment/request-payment', $params, [
+        // $rawResponse = PayTech::post($this::URL . $this::PAYMENT_REQUEST_PATH, $params, [
+            "API_KEY: {$this->apiKey}",
+            "API_SECRET: {$this->apiSecret}"
+        ]);
+
+//var_dump($rawResponse);
+
+        /**
+         * @var array
+         */
+        $jsonResponse = json_decode($rawResponse, true);
+
+        if (array_key_exists('token', $jsonResponse)) {
+            $query = '';
+
+            return [
+                'success' => 1,
+                'token' => $jsonResponse['token'],
+                'redirect_url' => $this::URL . $this::PAYMENT_REDIRECT_PATH . $jsonResponse['token'] . $query
+            ];
+        } else if (array_key_exists('error', $jsonResponse)) {
+            return [
+                'success' => -1,
+                'errors' => $jsonResponse['error']
+            ];
+        } else {
+            return [
+                'success' => -1,
+                'errors' => [
+                    'Internal Error'
+                ]
+            ];
+        }
+
+    }
+
+    private static function arrayGet($array, $name, $default = '')
+    {
+        return empty($array[$name]) ? $default : $array[$name];
+    }
+
+    private static function post($url, $data = [], $header = [])
     {
         $strPostField = http_build_query($data);
 
@@ -22,6 +153,7 @@ class Paytech extends Model
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+
         curl_setopt($ch, CURLOPT_HTTPHEADER, array_merge($header, [
             'Content-Type: application/x-www-form-urlencoded;charset=utf-8',
             'Content-Length: ' . mb_strlen($strPostField)
@@ -30,190 +162,92 @@ class Paytech extends Model
         return curl_exec($ch);
     }
 
-    public function generatePaymentLink($type,$nombre)
+    /**
+     * @param array $query
+     * @return $this
+     */
+    public function setQuery($query)
     {
-        $user = Auth()->user();
-        $userId = $user->id;
-        $encryptedUserId = Crypt::encryptString($userId);
-
-
-        $timestamp = (int)(microtime(true) * 1000);
-        $random = rand(0, 99999);
-        $ref = 'REF_'.$timestamp . $random;
-
-        $api_key = "9650a121ffeb1f4268dcd5ef88d32164907b6bd843edb56f53f547efc22006de";
-        $api_secret = "bc53592e809c96420e2f15e802ec230660ddf7d5a017513a7dd1faceffe97b29";
-        $environnement = 'test';
-
-        $total = 5000;
-        $totalDay = 1;
-
-        $a = ParamAbonnement::first();
-        $monthly = $a->mensuel;
-        $yearly = $a->annuel;
-
-        $daysInMonth = 30;
-        $daysInYear = 365;
-
-        if ($type == 'mois'){
-            $total = $nombre * $monthly;
-            $totalDay = $nombre * $daysInMonth;
-        }
-        else{
-            $total = $nombre * $yearly;
-            $totalDay = $nombre * $daysInYear;
-        }
-
-        $encryptedTotalDay = Crypt::encryptString($totalDay);
-
-
-        // $baseUrl = 'https://bp.sunucode.com';
-        $baseUrl = 'https://bacb-154-125-244-148.ngrok-free.app/';
-
-        $success_url = $baseUrl . '/api/success?user_id=' . $encryptedUserId . '&duration='. $encryptedTotalDay . '&amount=' . $total . '&ref_commande=' . $ref ;
-
-        $ipn_url = $baseUrl . '/api/ipn?user_id=' . $encryptedUserId;
-        
-        $cancel_url = $baseUrl . '/api/cancel?user_id=' . $encryptedUserId . '&duration='. $encryptedTotalDay;
-
-        $customfield = '';
-
-        $ref_commande = $ref; // Référence de la commande
-        $commande = 'Commande_'. $ref; // Nom de la commande
-        $product_name = 'Abonnement Gestion Commercial'; // Nom du produit
-
-        $postFields = [
-            'item_name' => $product_name,
-            'item_price' => $total,
-            'currency' => 'xof',
-            'ref_command' => $ref_commande,
-            'command_name' => $commande,
-            'env' => $environnement,
-            'success_url' => $success_url,
-            'ipn_url' => $ipn_url,
-            'cancel_url' => $cancel_url,
-            'custom_field' => $customfield
-        ];
-
-        try {
-            // $client = new Client();
-            $response = $this->post('https://paytech.sn/api/payment/request-payment', [
-                'headers' => [
-                    'API_KEY' => $api_key,
-                    'API_SECRET' => $api_secret
-                ],
-                'form_params' => $postFields,
-                'verify' => false
-            ]);
-
-            $jsonResponse = json_decode($response, true);
-            return response()->json($jsonResponse);
-        } catch (RequestException $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Error generating payment link',
-                'error' => $e->getMessage()
-            ]);
-        }
+        $this->query = $query;
+        return $this;
     }
 
+    /**
+     * @param array $customeField
+     * @return $this
+     */
+    public function setCustomeField($customeField)
+    {
+        if (is_array($customeField)) {
+            $this->customeField = $customeField;
+        }
 
-    // public function success(Request $request)
-    // {
-    //     $encryptedUserId = $request->input('user_id');
-    //     $encryptedDuration = $request->input('duration');
-        
+        return $this;
+    }
 
-    //     $decryptedDuration = Crypt::decryptString($encryptedDuration);
-    //     $userId = Crypt::decryptString($encryptedUserId);
+    /**
+     * @param bool $liveMode
+     * @return $this
+     */
+    public function setLiveMode($liveMode)
+    {
+        $this->liveMode = $liveMode;
+        $this->testMode = !$liveMode;
 
-    //     $amount = $request->input('amount');
-    //     $ref_commande = $request->input('ref_commande');
+        return $this;
+    }
 
-    //     $user = User::find($userId);
-    //     $company = $user->company;
+    /**
+     * @param bool $testMode
+     * @return $this
+     */
+    public function setTestMode($testMode)
+    {
+        $this->testMode = $testMode;
+        $this->liveMode = !$testMode;
 
-    //     // Trouver le dernier abonnement pour l'entreprise
-    //     $latestSubscription = Souscription::where('company_id', $company->id)
-    //                                     ->orderBy('end_at', 'desc')
-    //                                     ->first();
-    //     if(!$latestSubscription){
-    //         $latestSubscription = Souscription::create([
-    //             'company_id' => $company->id,
-    //             'created_by' => $userId,
-    //             'updated_by' => $userId,
-    //             'amount' => $amount,
-    //             'type' => 'Renouvellement',
-    //             'start_at' => Carbon::now(),
-    //             'end_at' => Carbon::now()->addDay(1),
-    //         ]);
-    //         $latestSubscription->save();
-    //     }
-        
-    //     $payment = Payment::where('ref_commande', $ref_commande)->first();                                
+        return $this;
+    }
 
-    //     if (!$payment) {
-        
-    //             $endAt = Carbon::parse($latestSubscription->end_at);
-        
-    //             if ($endAt->isPast()) {
-    //                 $endAt = Carbon::now();
-    //                 $latestSubscription->start_at = Carbon::now();
-    //             }
-        
-    //             // Ajout de la durée
-    //             $endAt->addDays($decryptedDuration);
-        
-    //             // Mise à jour de l'abonnement
-    //             $latestSubscription->end_at = $endAt;
-    //             $latestSubscription->status = 1;
+    /**
+     * @param string $currency
+     * @return $this
+     */
+    public function setCurrency($currency)
+    {
+        $this->currency = strtolower($currency);
+        return $this;
+    }
 
-    //         $latestSubscription->save();
+    /**
+     * @param string $refCommand
+     * @return $this
+     */
+    public function setRefCommand($refCommand)
+    {
+        $this->refCommand = $refCommand;
 
-    //         $newpayment = new Payment([
-    //             'userId' => $userId,
-    //             'amount' => $amount,
-    //             'ref_commande' => $ref_commande,
-    //         ]);
+        return $this;
+    }
 
-    //         $newpayment->save();
+    /**
+     * @param array $notificationUrl
+     * @return $this
+     */
+    public function setNotificationUrl($notificationUrl)
+    {
+        $this->notificationUrl = $notificationUrl;
+        return $this;
+    }
 
-    //         return view('paytech.success', [
-    //             'success' => true,
-    //             'message' => 'Abonnement mis à jour avec succès',
-    //             'duration' => $decryptedDuration,
-    //             'end_at' => $endAt->toDateTimeString()
-    //         ]);
-    //     } else {
-    //         return view('paytech.success', [
-    //             'success' => false,
-    //             'message' => 'Paiement déjà enregistré avec succès !'
-    //         ]);
-    //     }
-    // }
+    /**
+     * @param bool $isMobile
+     * @return $this
+     */
+    public function setMobile($isMobile)
+    {
+        $this->isMobile = $isMobile;
 
-    // public function cancel(Request $request)
-    // {
-    //     $encryptedDuration = $request->input('duration');
-
-    //     $decryptedDuration = Crypt::decryptString($encryptedDuration);
-
-    //     return view('paytech.cancel', [
-    //         'message' => 'Le paiement a été annulé',
-    //         'duration' => $decryptedDuration,
-    //     ]);
-    // }
-
-    // public function ipn(Request $request)
-    // {
-    //     $encryptedDuration = $request->input('duration');
-
-    //     $decryptedDuration = Crypt::decryptString($encryptedDuration);
-
-    //     return view('ipn', [
-    //         'message' => 'Notification de paiement instantanée reçue',
-            
-    //     ]);
-    // }
-
+        return $this;
+    }
 }
