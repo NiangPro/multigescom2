@@ -1,4 +1,6 @@
 <div>
+    <button wire:click='alertConfirm' class="btn btn-icon mb-3 icon-left btn-danger"><i class="fa fa-spinner"></i>
+        Réinitialiser le compte demo</button>
     <div class="card card-primary">
         <form wire:submit.prevent="editConfig"  class="needs-validation" novalidate="">
           <div class="card-header">

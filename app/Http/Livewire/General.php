@@ -38,16 +38,21 @@ class General extends Component
         $this->dispatchBrowserEvent('swal:confirm', [
                 'type' => 'warning',
                 'message' => 'Êtes-vous sûr?',
-                'text' => 'Vouliez-vous supprimer?'
+                'text' => 'Vouliez-vous réinitialiser le compte demo?'
             ]);
     }
 
     public function remove()
     {
+        $ent = Entreprise::where("sigle", "DM")->first();
+
+        $ent->delete();
+
+        $this->astuce->createEntrepriseDemo();
         $this->dispatchBrowserEvent('swal:modal', [
             'type' => 'success',
-            'message' => 'Entreprise!',
-            'text' => 'Suppression avec succès.'
+            'message' => 'Compte demo!',
+            'text' => 'Réinitilisation avec succès.'
         ]);
     }
 

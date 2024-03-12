@@ -20,7 +20,7 @@
               <div class="input-group-prepend">
                 <div class="input-group-text">Sigle<span class="text-danger">*</span></div>
               </div>
-              <input type="text" class="form-control @error('form.sigle') is-invalid @enderror" wire:model="form.sigle" placeholder="Le sigle de l'entreprise">
+              <input @if($form['sigle'] == "DM") readonly @endif type="text" class="form-control @error('form.sigle') is-invalid @enderror" wire:model="form.sigle" placeholder="Le sigle de l'entreprise">
               @error('form.sigle')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
