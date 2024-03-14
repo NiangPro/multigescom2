@@ -201,6 +201,16 @@ class Astuce extends Model
             ->get();
     }
 
+    public function addHistoriqueExtern($description, $type,$id)
+    {
+        Historique::create([
+            'description' => $description,
+            'type' => $type,
+            'user_id' => $id,
+            'date' => new DateTime(),
+        ]);
+    }
+
     public function addHistorique($description, $type)
     {
         Historique::create([

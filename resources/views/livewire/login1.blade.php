@@ -14,20 +14,23 @@
           <div>
             <strong> Mot de passe oublié </strong> <a href="{{route('passwordforget')}}" style="text-decoration: none;">Cliquez ici</a>
           </div>
-          <input type="submit" value="Se connecter" class="btn solid" />
+          <span class="d-flex justify-content-center">
+            <input type="submit" value="Se connecter" class="btn solid" />
+            <a href="{{route('inscription')}}" style="text-decoration: none;">S'inscrire</a>
+          </span>
           <p class="social-text">Suivez-nous sur les reseaux sociaux</p>
           <div class="social-media">
-            <a href="#" class="social-icon">
+            <a href="https://www.facebook.com/sunucode" target="_blank" class="social-icon">
               <i class="fab fa-facebook-f"></i>
             </a>
-            <a href="#" class="social-icon">
-              <i class="fab fa-twitter"></i>
+            <a href="https://www.tiktok.com/@sunucode?_t=8kfu8GeDS6A&_r=1" target="_blank" class="social-icon">
+                <i class="fab fa-tiktok"></i>
             </a>
-            <a href="#" class="social-icon">
-              <i class="fab fa-google"></i>
+            <a href="https://sunucode.com/" target="_blank" class="social-icon">
+                <i class="fas fa-laptop"></i>
             </a>
-            <a href="#" class="social-icon">
-              <i class="fab fa-linkedin-in"></i>
+            <a href="https://www.linkedin.com/company/66938829/admin/feed/posts/" target="_blank" class="social-icon">
+                <i class="fab fa-linkedin-in"></i>
             </a>
           </div>
         </form>

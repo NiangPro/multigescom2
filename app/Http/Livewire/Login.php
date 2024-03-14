@@ -9,6 +9,7 @@ use Livewire\Component;
 class Login extends Component
 {
     public $astuce;
+    public $etat="connexion";
     public $form = [
         "email" => "",
         "password" => "",
