@@ -26,20 +26,41 @@
                     </div>
                 </div>
             </div>
-            <div style="display: inline-flex; flex-direction: row; column-gap: 25px; align-items: center;">
+            <div>
+                <div class="input-field" style="max-width:100%">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" class=" @error('form.email') is-invalid @enderror" wire:model="form.email" placeholder="email" required style="width: 755px!important;"/>
+                    @error('form.email')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+            </div>
+            <div style="display: inline-flex; flex-direction: row; column-gap: 44px; align-items: center;">
                 <div>
-                    <div class="input-field">
-                        <i class="fas fa-envelope"></i>
-                        <input type="email" class=" @error('form.email') is-invalid @enderror" wire:model="form.email" placeholder="email" required style="width: 400px;"/>
-                        @error('form.email')
+                    <div class="form-group" style="margin-left: 77px;">
+                        <div class="selectgroup selectgroup-pills" style="display: inline-flex; justify-content: start; float: left; margin-top:4px; 
+                        margin-bottom: 4px; margin-left: -50px; color: #aaaaaa; font-weight: 500; font-size: 17px;" >
+                            Sexe &nbsp;&nbsp;&nbsp;
+                          <label class="selectgroup-item">
+                            <input type="radio" name="icon-input" value="Homme" class="selectgroup-input @error('form.sexe') is-invalid @enderror" wire:model="form.sexe" checked="">
+                            <span class="selectgroup-button selectgroup-button-icon"><i class="fas fa-male"></i></span>
+                          </label>&nbsp;&nbsp;&nbsp;
+                          <label class="selectgroup-item">
+                            <input type="radio" name="icon-input" value="Femme" class="selectgroup-input @error('form.sexe') is-invalid @enderror" wire:model="form.sexe">
+                            <span class="selectgroup-button selectgroup-button-icon"><i class="fas fa-female"></i></span>
+                          </label>
+                          @error('form.sexe')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
-                        @enderror
+                          @enderror
+                        </div>
                     </div>
                 </div>
                 <div>
-                    <div class="input-field">
+                    <div class="input-field" style="margin-left:170px;">
                         <i class="fas fa-phone"></i>
                         <input type="tel" class="@error('form.tel') is-invalid @enderror" wire:model="form.tel" placeholder="Téléphone" required style="width: 400px;"/>
                         @error('form.tel')
@@ -47,27 +68,6 @@
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
-                    </div>
-                </div>
-            </div>
-            <div>
-                <div class="form-group">
-                    <div class="selectgroup selectgroup-pills" style="display: inline-flex; justify-content: start; float: left; margin-top:4px; 
-                    margin-bottom: 4px; margin-left: -50px; color: #aaaaaa; font-weight: 500; font-size: 17px;" >
-                        Sexe &nbsp;&nbsp;&nbsp;
-                      <label class="selectgroup-item">
-                        <input type="radio" name="icon-input" value="Homme" class="selectgroup-input @error('form.sexe') is-invalid @enderror" wire:model="form.sexe" checked="">
-                        <span class="selectgroup-button selectgroup-button-icon"><i class="fas fa-male"></i></span>
-                      </label>&nbsp;&nbsp;&nbsp;
-                      <label class="selectgroup-item">
-                        <input type="radio" name="icon-input" value="Femme" class="selectgroup-input @error('form.sexe') is-invalid @enderror" wire:model="form.sexe">
-                        <span class="selectgroup-button selectgroup-button-icon"><i class="fas fa-female"></i></span>
-                      </label>
-                      @error('form.sexe')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                      @enderror
                     </div>
                 </div>
             </div>
