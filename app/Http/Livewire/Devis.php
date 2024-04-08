@@ -32,33 +32,31 @@ class Devis extends Component
 
     public $form = [
         'date' => '',
-        'client_id' => '',
-        'employe_id' => '',
+        'client_id' => null,
+        'employe_id' => null,
         'description' => '',
         'montant' => '',
         'remise' => '',
         'statut' => '',
-        'entreprise_id' => '',
+        'entreprise_id' => null,
     ];
 
     protected $rules = [
         'form.date' => 'required|string',
         'form.client_id' => 'required',
-        'form.employe_id' => 'required',
         'form.statut' => 'required|string',
     ];
 
     protected  $messages = [
         'form.date.required' => 'La date est requis',
         'form.client_id.required' => 'Le client est requis',
-        'form.employe_id.required' => 'L\'employe client est requis',
         'form.statut.required' => 'le statut est requis',
     ];
 
     public function initForm(){
         $this->form['date']='';
-        $this->form['client_id']='';
-        $this->form['employe_id']='';
+        $this->form['client_id']= null;
+        $this->form['employe_id']= null;
         $this->form['description']='';
         $this->form['montant']='';
         $this->form['remise']='';
@@ -83,7 +81,7 @@ class Devis extends Component
         if($this->emptyDevisItem($this->tab_product)){
             $devis = ModelsDevis::create([
                 'client_id' => $this->form['client_id'],
-                'employe_id' => $this->form['employe_id'],
+                'employe_id' => $this->form['employe_id'] ?:null,
                 'description' => $this->form['description'],
                 'montant' => $this->total,
                 'remise' => $this->remise,
@@ -195,7 +193,7 @@ class Devis extends Component
     }
 
     public function getDevis($id){
-        $this->current_devis = DevisItem::where("id", $id)->first();
+        $this->current_devis = ModelsDevis::where("id", $id)->first();
         $this->etat = "info";
     }
 
@@ -237,7 +235,7 @@ class Devis extends Component
 
         foreach ($this->tab_product as $product) {
             if($product['montant'] && $product['quantite']){
-                $sous_total += ($product['montant'] * $product['quantite'])*(1 + ($product['taxe']/100));
+                $sous_total += $product['montant']*(1 + ($product['taxe']/100));
                 $this->total = $sous_total*(1 - $this->remise/100);
             }
         }

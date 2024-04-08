@@ -39,15 +39,15 @@ class Employes extends Component
         'fonction' => '',
         'adresse' => '',
         'sexe' => '',
-        'pays' => '',
+        'pays' => 193,
         'id' => null,
     ];
 
     public $contratForm = [
         'id'=> null,
         'titre'=> '',
-        'fichier'=> '',
-        'employe_id'=> '',
+        'fichier'=> null,
+        'employe_id'=> null,
     ];
 
     protected $rules = [
@@ -58,7 +58,7 @@ class Employes extends Component
         'form.fonction' => 'required|string',
         'form.adresse' => 'required|string',
         'form.sexe' => 'required|string',
-        'form.pays' => 'required|string',
+        'form.pays' => 'required',
     ];
 
     protected  $messages = [
@@ -143,8 +143,8 @@ class Employes extends Component
 
     public function initContratForm(){
         $this->contratForm['titre']='';
-        $this->contratForm['fichier']='';
-        $this->contratForm['employe_id']='';
+        $this->contratForm['fichier']= null;
+        $this->contratForm['employe_id']= null;
 
     }
 
@@ -201,7 +201,7 @@ class Employes extends Component
         $this->form['fonction'] = $this->current_employe->fonction;
         $this->form['adresse'] = $this->current_employe->adresse;
         $this->form['sexe'] = $this->current_employe->sexe;
-        $this->form['pays'] = $this->current_employe->pays;
+        $this->form['pays'] = $this->current_employe->country_id;
 
     }
 
@@ -265,7 +265,7 @@ class Employes extends Component
             $employe->fonction = $this->form['fonction'];
             $employe->adresse = $this->form['adresse'];
             $employe->sexe = $this->form['sexe'];
-            $employe->pays = $this->form['pays'];
+            $employe->country_id = $this->form['pays'];
 
             $employe->save();
             $this->astuce->addHistorique("Mis à jour employé", "update");
@@ -280,7 +280,7 @@ class Employes extends Component
                 'tel' => $this->form['tel'],
                 'adresse' => $this->form['adresse'],
                 'role' => "Employe",
-                'pays' => $this->form['pays'],
+                'country_id' => $this->form['pays'],
                 'password' => Hash::make("admin@1"),
                 'fonction' => $this->form['fonction'],
                 'entreprise_id' => Auth::user()->entreprise_id,

@@ -73,7 +73,7 @@
                             <div class="input-group-text">Email<span class="text-danger">*</span></div>
                           </div>
                           <input type="email" class="form-control @error('form.email') is-invalid
-                            @enderror" placeholder="Nom" wire:model="form.email">
+                            @enderror" placeholder="Email" wire:model="form.email">
                             @error('form.email')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>

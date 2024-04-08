@@ -65,14 +65,15 @@ class Profil extends Component
     {
         if(isset($this->user->id) && $this->user->id !== null){
             $user = User::where('id', $this->user->id)->first();
+
             $this->validate([
                 'form.email' => ["unique:users,email,$user->id"],
                 'form.prenom' => 'required|string',
                 'form.nom' => 'required|string',
                 'form.tel' => ['required', 'min:9', 'max:9', 'regex:/^[33|70|75|76|77|78]+[0-9]{7}$/'],
-                'form.entreprise_id' => 'nullable|string',
+                'form.entreprise_id' => 'nullable',
             ]);
-
+            
             $user->email = ucfirst($this->form['email']);
             $user->prenom = ucfirst($this->form['prenom']);
             $user->nom = $this->form['nom'];
@@ -82,7 +83,7 @@ class Profil extends Component
             $user->save();
             $this->astuce->addHistorique("Mis à jour du profil", "update");
 
-            $this->mount();
+            $this->initForm();
             $this->dispatchBrowserEvent("updateSuccessful");
 
         }
@@ -109,7 +110,7 @@ class Profil extends Component
             $this->astuce->addHistorique("Mis à jour de l'image de profil", "update");
 
             $this->dispatchBrowserEvent('profilEditSuccessful');
-            $this->mount();
+            $this->initForm();
         }
     }
 
@@ -133,6 +134,12 @@ class Profil extends Component
             return redirect(route('login'));
         }
 
+        $this->initForm();
+    }
+
+    public function initForm()
+    {
+
         $this->user = Auth::user();
         $this->role = $this->user->role;
         $this->form['prenom'] = $this->user->prenom;
@@ -142,6 +149,5 @@ class Profil extends Component
         $this->form['sexe'] = $this->user->sexe;
         $this->form['tel'] = $this->user->tel;
         $this->form['entreprise_id'] = $this->user->entreprise_id;
-
     }
 }

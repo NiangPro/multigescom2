@@ -123,7 +123,7 @@
                             <div class="col-lg-4 col-md-6">
                                 <table class="float-right">
                                     <tr class="">
-                                        <th class="p-2">Subtotal</th>
+                                        <th class="p-2">Sous-total</th>
                                         <td class="p-2">{{$sous_total}}</td>
                                     </tr>
                                     <tr class="border-t border-gray-300">

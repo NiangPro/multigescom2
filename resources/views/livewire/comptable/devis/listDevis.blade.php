@@ -18,9 +18,7 @@
                     @foreach ($devisItem as $dev)
                         <tr>
                             <td class="text-dark strong">
-                                @foreach ($dev->devis_items as $item)
-                                    {{$item['nom']}} <br>
-                                @endforeach
+                                {{$dev->client->nom}}
                             </td>
                             <td>
                                 @foreach ($dev->devis_items as $item)
@@ -28,8 +26,8 @@
                                 @endforeach
                             </td>
                             <td>{{$dev->montant}} CFA</td>
-                            <td>{{$dev->employe->prenom}} {{$dev->employe->prenom}}</td>
                             <td>{{ date("d/m/Y", strtotime($dev->date))}}</td>
+                            <td>@if($dev->employe) {{$dev->employe->prenom}} {{$dev->employe->nom}} @endif</td>
                             <td>
                                 <div class="text-small font-weight-600
                                     @if ($dev->statut==='Envoyé')

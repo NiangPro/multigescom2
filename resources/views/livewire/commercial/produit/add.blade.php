@@ -57,7 +57,7 @@
                 <div class="form-group">
                     <div class="input-group mb-2">
                       <div class="input-group-prepend">
-                        <div class="input-group-text">Description<span class="text-danger">*</span></div>
+                        <div class="input-group-text">Description</div>
                       </div>
                       <input type="text" class="form-control @error('form.description') is-invalid
                       @enderror" wire:model="form.description" placeholder="Description">
@@ -111,7 +111,7 @@
                             </div>
                             <select class="form-control @error('form.taxe') is-invalid
                                 @enderror" wire:model="form.taxe" id="exampleFormControlSelect1">
-                                <option value="Homme">Selectionner une taxe</option>
+                                <option value="">Selectionner une taxe</option>
                                 @foreach ($tva as $item)
                                     <option value="{{$item->valeur}}">{{$item->valeur}}</option>
                                 @endforeach

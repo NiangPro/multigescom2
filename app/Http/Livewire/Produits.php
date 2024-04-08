@@ -28,13 +28,13 @@ class Produits extends Component
         'description' => '',
         'type' => '',
         'tarif' => '',
-        'taxe' => '',
+        'taxe' => 0,
         'entreprise_id' => '',
     ];
 
     protected $rules = [
         'form.nom' => 'required|string',
-        'form.description' => 'required|string',
+        'form.description' => 'string',
         'form.type' => 'required|string',
         'form.tarif' => 'required',
         'form.taxe' => 'required',
@@ -169,7 +169,7 @@ class Produits extends Component
         $this->form['description']='';
         $this->form['type']='';
         $this->form['tarif']='';
-        $this->form['taxe']='';
+        $this->form['taxe']= 0;
     }
 
     public function changeEtat($etat){
