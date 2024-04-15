@@ -143,6 +143,8 @@
                     </div>
                 </div>
             </div>
+            <label for="">En m’inscrivant, j’accepte les conditions d’utilisation du site.
+                <a href="{{route('cgu')}}" class="text-decoration-none">Conditions Générales d’Utilisation</a></label>
             <span class="d-flex justify-content-center">
                 <input type="submit" value="S'inscrire" class="btn solid" />
                 <a href="{{route('login')}}" style="text-decoration: none;">Se connecter</a>

@@ -224,28 +224,26 @@ class Astuce extends Model
     public function searchByDate($type, $start, $end){
         $val=0;
         if($type == 'Depense'){
-            $tab = Depense::where('entreprise_id', Auth()->user()->entreprise_id)->where('date', '>=', $start)->where('date', '<=', $end)
+            $tab = Depense::where('entreprise_id', Auth()->user()->entreprise_id)->where("date", "<=", $end)->where("date", ">=",$start)
                 ->select([
                     DB::raw("SUM(montant) as amount"),
                     DB::raw("DATE_FORMAT(date, '%m') as month"),
-                    DB::raw("DATE_FORMAT(date, '%Y') as year"),])
+                    DB::raw("DATE_FORMAT(date, '%Y') as year")])
                 ->groupBy('month')->groupBy('year')->get();
-                if(!empty($tab)){
-                    foreach ($tab as $r) {
-                        $val= $r['amount'];
-                    }
-                }
+
         }elseif($type ==='Vente'){
             $tab = Vente::where('entreprise_id', Auth()->user()->entreprise_id)->where('date', '>=', $start)->where('date', '<=', $end)
                 ->select([DB::raw("SUM(montant) as amount"),
                 DB::raw("DATE_FORMAT(date, '%m') as month"),
                 DB::raw("DATE_FORMAT(date, '%Y') as year"),])->groupBy('month')->groupBy('year')->get();
-                if(!empty($tab)){
-                    foreach ($tab as $r) {
-                        $val= $r['amount'];
-                    }
-                }
+                
         }
+        if(!empty($tab)){
+            foreach ($tab as $r) {
+                $val= $r['amount'];
+            }
+        }
+       
         return $val;
     }
 
@@ -364,16 +362,13 @@ class Astuce extends Model
     public function getDepenses()
     {
         $data = [];
-        // $i=1;
         $depenses = Depense::where('entreprise_id', Auth()->user()->entreprise_id)->select([
             DB::raw("DATE_FORMAT(date, '%m') as month"),
             DB::raw("DATE_FORMAT(date, '%Y') as year"),
             DB::raw("SUM(montant) as amount")])->groupBy('month')->groupBy('year')->get();
-            // dd(intval(date("m")));
             for($i=1; $i<=intval(date("m")); $i++){
                 $som = 0;
                 foreach ($depenses as $r) {
-                    // dd("moi=".$r['month']."  i=".$i);
                     if($i==$r['month']){
                         $som= $r['amount'];
                         break;
@@ -388,7 +383,6 @@ class Astuce extends Model
     public function getDepensesMonth()
     {
         $data = 0;
-        // $i=1;
         $depenses = Depense::where('entreprise_id', Auth()->user()->entreprise_id)->select([
             DB::raw("DATE_FORMAT(date, '%m') as month"),
             DB::raw("DATE_FORMAT(date, '%Y') as year"),
@@ -400,7 +394,6 @@ class Astuce extends Model
                         break;
                     }
                 }
-                // dd($data);
 
             return json_encode($data);
     }
@@ -515,6 +508,8 @@ class Astuce extends Model
         return User::where('role', "Employe")->where('entreprise_id', Auth()->user()->entreprise_id)->orderBy("Prenom", "ASC")->get();
     }
 
+    
+
     public function superAdminHistorique()
     {
         $data = [];
@@ -529,7 +524,7 @@ class Astuce extends Model
             }
         }
 
-        return $data;
+        return array_reverse($data);
     }
 
     public function adminHistorique()
@@ -546,7 +541,7 @@ class Astuce extends Model
             }
         }
 
-        return $data;
+        return array_reverse($data);
     }
 
 

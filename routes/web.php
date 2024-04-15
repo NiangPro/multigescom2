@@ -2,6 +2,7 @@
 
 use App\Http\Livewire\Abonnement;
 use App\Http\Livewire\Admins;
+use App\Http\Livewire\Cgu;
 use App\Http\Livewire\Clients;
 use App\Http\Livewire\Commercial;
 use App\Http\Livewire\Company;
@@ -73,3 +74,4 @@ Route::get('/abonnements', Abonnement::class)->name('abonnement');
 Route::get('/creation_entreprise', Inscription::class)->name('inscription');
 Route::get('/mot_de_passe_oublie', PasswordForget::class)->name('passwordforget');
 Route::get('/configuration_generale', General::class)->name('general');
+Route::get('/conditions_generales_utilisation', Cgu::class)->name('cgu');

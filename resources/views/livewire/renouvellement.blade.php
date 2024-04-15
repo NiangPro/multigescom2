@@ -24,7 +24,7 @@
         <h5>{{ number_format($total, 0, ',' , ' ') }} FCFA</h5>
       </div>
     </div>
-    <button type="submit" class="btn btn-success">Renouveller</button>
+    <button type="submit" class="btn btn-success">Renouveler</button>
     <button type="button" wire:click='resetRenew' class="btn btn-warning">Annuler</button>
   </form>
 </div>
