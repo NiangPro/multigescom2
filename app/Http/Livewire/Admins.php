@@ -190,7 +190,7 @@ class Admins extends Component
             $user->prenom = ucfirst($this->form['prenom']);
             $user->nom = $this->form['nom'];
             $user->tel = $this->form['tel'];
-            $user->entreprise_id = $this->form['entreprise_id'];
+            // $user->entreprise_id = $this->form['entreprise_id'];
 
             $user->save();
             $this->astuce->addHistorique("Mis à jour des informations d'un admin", "update");

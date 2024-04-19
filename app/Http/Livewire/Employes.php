@@ -39,7 +39,7 @@ class Employes extends Component
         'fonction' => '',
         'adresse' => '',
         'sexe' => '',
-        'pays' => '',
+        'country_id' => '',
         'id' => null,
     ];
 
@@ -58,7 +58,7 @@ class Employes extends Component
         'form.fonction' => 'required|string',
         'form.adresse' => 'required|string',
         'form.sexe' => 'required|string',
-        'form.pays' => 'required|string',
+        'form.country_id' => 'required',
     ];
 
     protected  $messages = [
@@ -72,7 +72,7 @@ class Employes extends Component
         'form.fonction.required' => 'La fonction est requise',
         'form.adresse.required' => 'L\'adresse est requis',
         'form.sexe.required' => 'Le sexe est requis',
-        'form.pays.required' => 'Le pays est requis',
+        'form.country_id.required' => 'Le country_id est requis',
         'contratForm.fichier.required' => 'Le fichier est requis',
         'contratForm.titre.required' => 'Le titre est requis',
         'contratForm.fichier.file' => 'Selectionner un ficher pdf',
@@ -201,7 +201,7 @@ class Employes extends Component
         $this->form['fonction'] = $this->current_employe->fonction;
         $this->form['adresse'] = $this->current_employe->adresse;
         $this->form['sexe'] = $this->current_employe->sexe;
-        $this->form['pays'] = $this->current_employe->pays;
+        $this->form['country_id'] = $this->current_employe->country_id;
 
     }
 
@@ -223,7 +223,7 @@ class Employes extends Component
         $this->form['fonction']='';
         $this->form['adresse']='';
         $this->form['sexe']='';
-        $this->form['pays']='';
+        $this->form['country_id']='';
     }
 
     public function editProfil()
@@ -265,12 +265,13 @@ class Employes extends Component
             $employe->fonction = $this->form['fonction'];
             $employe->adresse = $this->form['adresse'];
             $employe->sexe = $this->form['sexe'];
-            $employe->pays = $this->form['pays'];
+            $employe->country_id = $this->form['country_id'];
 
             $employe->save();
             $this->astuce->addHistorique("Mis à jour employé", "update");
             $this->dispatchBrowserEvent("updateSuccessful");
             $this->initForm();
+            $this->etat = "list";
         }else{
 
             User::create([
@@ -280,7 +281,7 @@ class Employes extends Component
                 'tel' => $this->form['tel'],
                 'adresse' => $this->form['adresse'],
                 'role' => "Employe",
-                'pays' => $this->form['pays'],
+                'country_id' => $this->form['country_id'],
                 'password' => Hash::make("admin@1"),
                 'fonction' => $this->form['fonction'],
                 'entreprise_id' => Auth::user()->entreprise_id,

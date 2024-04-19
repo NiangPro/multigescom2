@@ -109,14 +109,14 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Pays <span class="text-danger">*</span></label>
-                            <select class="form-control @error('form.pays') is-invalid @enderror" wire:model="form.pays" id="exampleFormControlSelect1">
+                            <select class="form-control @error('form.country_id') is-invalid @enderror" wire:model="form.country_id" id="exampleFormControlSelect1">
                                 @foreach ($country as $c)
                                     <option value="{{$c->id}}" @if ($c->nom_fr === "Sénégal")
                                         selected
                                     @endif >{{$c->nom_fr}}</option>
                                 @endforeach
                             </select>
-                            @error('form.pays') <span class="error text-danger">{{$message}}</span> @enderror
+                            @error('form.country_id') <span class="error text-danger">{{$message}}</span> @enderror
                         </div>
                     </div>
                 </div>

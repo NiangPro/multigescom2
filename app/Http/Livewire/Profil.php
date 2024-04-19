@@ -41,9 +41,8 @@ class Profil extends Component
         'form.role' => 'required|string',
         'form.tel' => ['required', 'min:9', 'max:9', 'regex:/^[33|70|75|76|77|78]+[0-9]{7}$/'],
         'form.sexe' => 'required|string',
-        'form.entreprise_id' => 'nullable|string',
+        'form.entreprise_id' => 'nullable',
         'form.email' => ['required', 'email', 'unique:users,email'],
-        'form.password' => 'required|string|min:6|confirmed',
     ];
 
     protected $messages = [
@@ -52,8 +51,8 @@ class Profil extends Component
         'form.role.required' => 'Le role est requis',
         'form.email.required' => "L'email est requis",
         'form.email.unique' => "L'email existe deja",
-        'form.password.required' => "Le mot de passe est requis",
-        'form.password.confirmed' => "Les deux mots de passe sont differents",
+        // 'form.password.required' => "Le mot de passe est requis",
+        // 'form.password.confirmed' => "Les deux mots de passe sont differents",
         'form.sexe.max' => 'Maximum 3 caractères',
         'form.tel.required' => 'Le telephone est requis',
         'form.tel.max' => 'Maximum 9 chiffres',
@@ -63,22 +62,21 @@ class Profil extends Component
 
     public function store()
     {
-        if(isset($this->user->id) && $this->user->id !== null){
+        if(isset($this->user->id) && $this->user->id !== null){ 
             $user = User::where('id', $this->user->id)->first();
             $this->validate([
-                'form.email' => ["unique:users,email,$user->id"],
                 'form.prenom' => 'required|string',
                 'form.nom' => 'required|string',
+                'form.email' => ["unique:users,email,$user->id"],
                 'form.tel' => ['required', 'min:9', 'max:9', 'regex:/^[33|70|75|76|77|78]+[0-9]{7}$/'],
-                'form.entreprise_id' => 'nullable|string',
+                'form.entreprise_id' => 'nullable',
             ]);
-
-            $user->email = ucfirst($this->form['email']);
+           
+            $user->email = $this->form['email'];
             $user->prenom = ucfirst($this->form['prenom']);
-            $user->nom = $this->form['nom'];
+            $user->nom = ucfirst($this->form['nom']);
             $user->tel = $this->form['tel'];
-            $user->entreprise_id = $this->form['entreprise_id'];
-
+            
             $user->save();
             $this->astuce->addHistorique("Mis à jour du profil", "update");
 
