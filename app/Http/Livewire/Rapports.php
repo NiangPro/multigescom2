@@ -3,12 +3,9 @@
 namespace App\Http\Livewire;
 
 use App\Models\Astuce;
-use App\Models\Depense;
 use App\Models\Messenger;
 use App\Models\Vente;
-use App\Models\VenteItem;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 
@@ -56,12 +53,13 @@ class Rapports extends Component
     public function search(){
         if($this->validate()){
             $this->search = true;
-            if($this->form['date_debut']>$this->form['date_debut']){
+            if($this->form['date_debut']>$this->form['date_fin']){
                 $this->dispatchBrowserEvent("errorDate");
             }else{
-                $this->searchDepense = $this->astuce->searchByDate('Depense', $this->form['date_debut'],$this->form['date_debut']);
-                $this->searchVente = $this->astuce->searchByDate('Vente', $this->form['date_debut'], $this->form['date_debut']);
+                $this->searchDepense = $this->astuce->searchByDate('Depense', $this->form['date_debut'],$this->form['date_fin']);
+                $this->searchVente = $this->astuce->searchByDate('Vente', $this->form['date_debut'], $this->form['date_fin']);
                 $this->searchRevenus =  $this->searchVente - $this->searchDepense ;
+
             }
         }
     }

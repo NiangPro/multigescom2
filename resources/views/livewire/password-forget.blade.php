@@ -2,30 +2,56 @@
     <div class="forms-container">
       <div class="signin-signup">
         @if(!$trouve)
-          <form wire:submit.prevent="isExiste"  class="sign-in-form">
-            <h4 class="title">Confirmez si c'est vous</h4>
-            <div class="input-field">
-              <i class="fas fa-user"></i>
-              <input type="email" wire:model="form.email" class="@error('form.email') is-invalid @enderror" placeholder="Email" required/>
-              @error('form.email')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-              @enderror
-            </div>
-            <div class="input-field">
-              <i class="fas fa-phone"></i>
-              <input type="tel" wire:model="form.tel" class="@error('form.tel') is-invalid @enderror" placeholder="Téléphone" required/>
-              @error('form.tel')
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-              @enderror
-            </div>
-            <input type="submit" value="Confirmer" class="btn solid" />
-            <a href="{{route('login')}}"   >Connexion</a>
-            
-          </form>
+          @if(!$trouveCode)
+            <form wire:submit.prevent="sendWelcomeEmail"  class="sign-in-form">
+              {{-- <h4 class="title">Confirmez si c'est vous</h4>
+              <div class="input-field">
+                <i class="fas fa-user"></i>
+                <input type="email" wire:model="form.email" class="@error('form.email') is-invalid @enderror" placeholder="Email" required/>
+                @error('form.email')
+                  <span class="invalid-feedback" role="alert">
+                      <strong>{{ $message }}</strong>
+                  </span>
+                @enderror
+              </div>
+              <div class="input-field">
+                <i class="fas fa-phone"></i>
+                <input type="tel" wire:model="form.tel" class="@error('form.tel') is-invalid @enderror" placeholder="Téléphone" required/>
+                @error('form.tel')
+                  <span class="invalid-feedback" role="alert">
+                      <strong>{{ $message }}</strong>
+                  </span>
+                @enderror
+              </div>
+              <input type="submit" value="Confirmer" class="btn solid" />
+              <a href="{{route('login')}}"   >Connexion</a> --}}
+              <h4 class="title">Entrer votre adresse email pour recevoir un code</h4>
+              <div class="input-field">
+                <i class="fas fa-user"></i>
+                <input type="email" wire:model="form.email" class="@error('form.email') is-invalid @enderror" placeholder="Email" required/>
+                @error('form.email')
+                  <span class="invalid-feedback" role="alert">
+                      <strong>{{ $message }}</strong>
+                  </span>
+                @enderror
+              </div>
+              <input type="submit" value="Recevoir code" class="btn solid" />
+            </form>
+          @else
+            <form wire:submit.prevent="isExact"  class="sign-in-form">
+              <h4 class="title">Entrer votre le code envoyer par email</h4>
+              <div class="input-field">
+                <i class="fas fa-user"></i>
+                <input type="text" wire:model="form.code" class="@error('form.code') is-invalid @enderror" placeholder="Code" required/>
+                @error('form.code')
+                  <span class="invalid-feedback" role="alert">
+                      <strong>{{ $message }}</strong>
+                  </span>
+                @enderror
+              </div>
+              <input type="submit" value="Varifier" class="btn solid" />
+            </form>
+          @endif
         @else
           <form wire:submit.prevent="editPassword"  class="sign-in-form">
             <h4 class="title">Mot de passe oublié</h4>
@@ -89,8 +115,8 @@
   <script>
       window.addEventListener('errorLogin', event =>{
           iziToast.error({
-          title: 'Connexion',
-          message: 'Email ou Téléphone non identique',
+          title: 'Verification',
+          message: 'Email incorrecte',
           position: 'topRight'
           });
       });
@@ -110,6 +136,30 @@
         position: 'topRight'
         });
     });
+
+    window.addEventListener('accessCode', event =>{
+        iziToast.success({
+        title: 'Code',
+        message: 'verification code exacte',
+        position: 'topRight'
+        });
+    });
+
+    window.addEventListener('sendCode', event =>{
+        iziToast.success({
+        title: 'Code ',
+        message: 'code envoyé par email avec succes',
+        position: 'topRight'
+        });
+    });
+
+    window.addEventListener('errorCode', event =>{
+          iziToast.error({
+          title: 'Verification',
+          message: 'code incorrecte',
+          position: 'topRight'
+          });
+      });
 
   </script>
 

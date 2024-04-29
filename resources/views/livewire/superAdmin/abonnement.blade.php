@@ -8,11 +8,11 @@
                 <div class="row">
                     <div class="col-md-5 form-group">
                         <label for="">Abonnement Mensuel (F CFA)</label>
-                        <input type="number" wire:model="form.mensuel" class="form-control">
+                        <input min="0" type="number" wire:model="form.mensuel" class="form-control">
                     </div>
                     <div class="col-md-5 form-group">
                         <label for="">Abonnement Annuel (F CFA)</label>
-                        <input type="number" wire:model="form.annuel" class="form-control">
+                        <input min="0" type="number" wire:model="form.annuel" class="form-control">
                     </div>
                     
                     <div class="col-md-2 mt-4 pt-1">

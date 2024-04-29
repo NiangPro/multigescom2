@@ -65,6 +65,7 @@ class Users extends Component
     protected $messages = [
         'form.nom.required' => 'Le nom est requis',
         'form.prenom.required' => 'Le nom est requis',
+        'form.entreprise_id.required' => 'Le champ entreprise est requis',
         'form.role.required' => 'Le role est requis',
         'form.email.required' => "L'email est requis",
         'form.email.unique' => "L'email existe deja",
@@ -255,6 +256,9 @@ class Users extends Component
             // Traitement ajout utilisateur
             if($this->role =="Super Admin"){
                 $this->form['entreprise_id'] = Auth()->user()->entreprise_id;
+            }
+            if($this->form["role"] == "Admin") {
+                $this->validate(["form.entreprise_id" => "required"]);
             }
 
             $this->validate();

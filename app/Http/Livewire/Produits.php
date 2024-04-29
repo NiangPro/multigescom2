@@ -28,13 +28,13 @@ class Produits extends Component
         'description' => '',
         'type' => '',
         'tarif' => '',
-        'taxe' => '',
+        'taxe' => 0,
         'entreprise_id' => '',
     ];
 
     protected $rules = [
         'form.nom' => 'required|string',
-        'form.description' => 'required|string',
+        'form.description' => 'string',
         'form.type' => 'required|string',
         'form.tarif' => 'required',
         'form.taxe' => 'required',
@@ -103,7 +103,7 @@ class Produits extends Component
             $this->dispatchBrowserEvent("typeEmpty");
         }
         
-        if(isset($this->current_produit->id) && $this->current_produit->id !== null){
+        if(isset($this->form['id']) && $this->form['id'] !== null){
             $produit = Produit::where("id", $this->current_produit->id)->first();
 
             $produit->nom = $this->form['nom'];
@@ -169,7 +169,7 @@ class Produits extends Component
         $this->form['description']='';
         $this->form['type']='';
         $this->form['tarif']='';
-        $this->form['taxe']='';
+        $this->form['taxe']= 0;
     }
 
     public function changeEtat($etat){

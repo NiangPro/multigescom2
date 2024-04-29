@@ -22,7 +22,7 @@ class Clients extends Component
         'adresse' => '',
         'tel' => '',
         'email' => '',
-        'country_id' => '',
+        'country_id' => 193,
         'entreprise_id' => '',
     ];
 
@@ -50,7 +50,7 @@ class Clients extends Component
         $this->form['adresse']='';
         $this->form['tel']='';
         $this->form['email']='';
-        $this->form['country_id']='';
+        $this->form['country_id']=193;
     }
 
     public function changeEtat($etat){

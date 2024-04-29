@@ -9,7 +9,7 @@
     <div class="card-body container mt-0" id="detailsVente">
         <div class="row">
             <div class="col-md-12">
-                <h4 class="text-center">Facture fait le {{ date("d/m/Y", strtotime($this->current_vente->ventes->date))}}</h4>
+                <h4 class="text-center">Facture fait le {{ date("d/m/Y", strtotime($this->current_vente->date))}}</h4>
             </div>
         </div>
         <div class="row mb-4 mt-3">
@@ -25,12 +25,12 @@
                 <span class="float-right mr-3">
                     <span class="d-flex">
                         <h5 class="mb-3 text-uppercase">
-                            <h3 class="mb-1 text-dark">à: {{$this->current_vente->ventes->client->nom}}</h3>
+                            <h3 class="mb-1 text-dark">à: {{$this->current_vente->client->nom}}</h3>
                         </h5>
                     </span>
-                    <div>Adresse: {{$this->current_vente->ventes->client->adresse}}</div>
-                    <div>Tel: {{$this->current_vente->ventes->client->tel}}</div>
-                    <div>Email: {{$this->current_vente->ventes->client->email}}</div>
+                    <div>Adresse: {{$this->current_vente->client->adresse}}</div>
+                    <div>Tel: {{$this->current_vente->client->tel}}</div>
+                    <div>Email: {{$this->current_vente->client->email}}</div>
                 </span>
             </div>
         </div>
@@ -46,13 +46,15 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach($current_vente->ventes_items  as $vente)
                     <tr>
-                        <td class="left strong">{{$this->current_vente->nom}}</td>
-                        <td class="left">{{$this->current_vente->description}}</td>
-                        <td class="right">{{$this->current_vente->montant}} CFA</td>
-                        <td class="center">{{$this->current_vente->quantite}}</td>
-                        <td class="right">{{$this->mtHt}} CFA</td>
+                        <td class="left strong">{{$vente->nom}}</td>
+                        <td class="left">{{$vente->description}}</td>
+                        <td class="right">{{$vente->montant / $vente->quantite}} CFA</td>
+                        <td class="center">{{$vente->quantite}}</td>
+                        <td class="right">{{$vente->montant}} CFA</td>
                     </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -65,14 +67,14 @@
                             <td class="left" >
                                 <strong class="text-dark ml-n4">Remise</strong>
                             </td>
-                            <td class="right">{{$this->current_vente->ventes->remise}}%</td>
+                            <td class="right">{{$this->current_vente->remise}}%</td>
                         </tr>
                         <tr style="border-bottom: 1px solid black;">
                             <td class="left">
                                 <strong class="text-dark ml-n4">Total</strong>
                             </td>
                             <td class="right">
-                                <strong class="text-dark">{{$this->current_vente->ventes->montant}} CFA</strong>
+                                <strong class="text-dark">{{$this->current_vente->montant}} CFA</strong>
                             </td>
                         </tr>
                     </tbody>

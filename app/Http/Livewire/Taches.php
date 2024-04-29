@@ -80,7 +80,7 @@ class Taches extends Component
     public function store(){
         $this->validate();
 
-        if (isset($this->current_tache->id) && $this->current_tache->id!==null) {
+        if (isset($this->form['id']) && $this->form['id']!==null) {
             $tache = Tache::where('id', $this->current_tache->id)->first();
 
             $tache->titre = $this->form['titre'];

@@ -15,7 +15,7 @@
     <div class="form-group row">
       <label for="inputEmail3" class="col-sm-3 col-form-label">Durée</label>
       <div class="col-sm-7">
-        <input type="number"  wire:model='formAbmt.nombre' wire:change='changeAbmt' class="form-control" id="inputEmail3">
+        <input type="number" min="0"  wire:model='formAbmt.nombre' wire:change='changeAbmt' class="form-control" id="inputEmail3">
       </div>
     </div>
     <div class="form-group row">
@@ -24,7 +24,7 @@
         <h5>{{ number_format($total, 0, ',' , ' ') }} FCFA</h5>
       </div>
     </div>
-    <button type="submit" class="btn btn-success">Renouveller</button>
+    <button type="submit" class="btn btn-success">Renouveler</button>
     <button type="button" wire:click='resetRenew' class="btn btn-warning">Annuler</button>
   </form>
 </div>

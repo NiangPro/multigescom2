@@ -25,7 +25,7 @@
                         <td>{{$vente->montant}} CFA</td>
                         <td>{{$vente->client->nom}}</td>
                         <td>{{date("d/m/Y", strtotime($vente->date))}}</td>
-                        <td>{{$vente->employe->prenom}} {{$vente->employe->nom}}</td>
+                        <td>@if($vente->employe){{$vente->employe->prenom}} {{$vente->employe->nom}}@endif</td>
                         <td>
                             <div class="d-flex">
                                 <button  class="btn btn-icon btn-outline-info btn-sm" wire:click.prevent="getVentes({{$vente->id}})"><i class="far fa-eye"></i></button>

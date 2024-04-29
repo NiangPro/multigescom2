@@ -9,7 +9,7 @@
     <div class="card-body container mt-0" id="detailsDevis">
         <div class="row">
             <div class="col-md-12">
-                <h4 class="text-center">Dévis fait le {{ date("d/m/Y", strtotime($this->current_devis->devis->date))}}</h4>
+                <h4 class="text-center">Dévis fait le {{ date("d/m/Y", strtotime($this->current_devis->date))}}</h4>
             </div>
         </div>
         <div class="row mb-4 mt-3">
@@ -25,13 +25,13 @@
                 <span class="float-right mr-3">
                     <span class="d-flex">
                         <h5 class="mb-3 text-uppercase">
-                            <h3 class="mb-1 text-dark">à: {{$this->current_devis->devis->client->nom}}</h3>
+                            <h3 class="mb-1 text-dark">à: {{$this->current_devis->client->nom}}</h3>
                         </h5>
                     </span>
                     {{-- <img class="mr-2 mb-1" width="120" src="storage/images/client.png" alt="logo"> --}}
-                    <div>Adresse: {{$this->current_devis->devis->client->adresse}}</div>
-                    <div>Tel: {{$this->current_devis->devis->client->tel}}</div>
-                    <div>Email: {{$this->current_devis->devis->client->email}}</div>
+                    <div>Adresse: {{$this->current_devis->client->adresse}}</div>
+                    <div>Tel: {{$this->current_devis->client->tel}}</div>
+                    <div>Email: {{$this->current_devis->client->email}}</div>
                 </span>
             </div>
         </div>
@@ -47,13 +47,23 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="left strong">{{$this->current_devis->nom}}</td>
-                        <td class="left">{{$this->current_devis->description}}</td>
-                        <td class="right">{{$this->current_devis->montant}} CFA</td>
-                        <td class="center">{{$this->current_devis->quantite}}</td>
-                        <td class="right">{{$this->current_devis->montant}} CFA</td>
-                    </tr>
+                    {{-- @if(is_array($current_devis))
+                    {{$item['nom']}} <br>
+                    @else --}}
+                    @foreach ($current_devis->devis_items as $item)
+                        <tr>
+                            <td class="left strong">
+                                {{$item->nom}}
+                            </td>
+                            <td class="left">{{$item->description}}</td>
+                            <td class="right">{{$item->montant}} CFA</td>
+                            <td class="center">{{$item->quantite}}</td>
+                            <td class="right">{{$item->montant * $item->quantite}} CFA</td>
+                        </tr>
+                    @endforeach
+                            
+                    {{-- @endif --}}
+                    
                 </tbody>
             </table>
         </div>
@@ -66,14 +76,14 @@
                             <td class="left" >
                                 <strong class="text-dark ml-n4">Remise</strong>
                             </td>
-                            <td class="right">{{$this->current_devis->devis->remise}}%</td>
+                            <td class="right">{{$this->current_devis->remise}}%</td>
                         </tr>
                         <tr style="border-bottom: 1px solid black;">
                             <td class="left">
                                 <strong class="text-dark ml-n4">Total</strong>
                             </td>
                             <td class="right">
-                                <strong class="text-dark">{{$this->current_devis->devis->montant}} CFA</strong>
+                                <strong class="text-dark">{{$this->current_devis->montant}} CFA</strong>
                             </td>
                         </tr>
                     </tbody>

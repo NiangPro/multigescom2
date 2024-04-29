@@ -3,7 +3,7 @@
     <div class="card card-primary">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-striped" id="table-2">
+                <table  class="table table-striped" id="table-2">
                 <thead>
                     <tr>
                         <th>Date</th>

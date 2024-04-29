@@ -66,7 +66,7 @@ class Reunions extends Component
     // add end edit reunion
     public function store(){
         $this->validate();
-        if (isset($this->current_meet->id) && $this->current_meet!== null) {
+        if (isset($this->form['id']) && $this->form['id']!== null) {
             $reunion = Reunion::where("id", $this->current_meet->id)->first();
 
             $reunion->titre = $this->form['titre'];

@@ -32,19 +32,18 @@ class Ventes extends Component
 
     public $form = [
         'date' => '',
-        'client_id' => '',
-        'employe_id' => '',
+        'client_id' => null,
+        'employe_id' => null,
         'description' => '',
         'montant' => '',
         'remise' => '',
         'statut' => '',
-        'entreprise_id' => '',
+        'entreprise_id' => null,
     ];
 
     protected $rules = [
         'form.date' => 'required|string',
         'form.client_id' => 'required',
-        'form.employe_id' => 'required',
     ];
 
     protected  $messages = [
@@ -55,8 +54,8 @@ class Ventes extends Component
 
     public function initForm(){
         $this->form['date']='';
-        $this->form['client_id']='';
-        $this->form['employe_id']='';
+        $this->form['client_id']= null;
+        $this->form['employe_id']= null;
         $this->form['description']='';
         $this->form['montant']='';
         $this->form['remise']='';
@@ -190,7 +189,7 @@ class Ventes extends Component
     }
 
     public function getVentes($id){
-        $this->current_vente = VenteItem::where("id", $id)->first();
+        $this->current_vente = ModelsVente::where("id", $id)->first();
         $this->mtHt = $this->current_vente->montant * $this->current_vente->quantite ;
 
         $this->etat = "info";
@@ -235,7 +234,7 @@ class Ventes extends Component
 
         foreach ($this->tab_product as $product) {
             if($product['montant'] && $product['quantite']){
-                $sous_total += ($product['montant'] * $product['quantite'])*(1 + ($product['taxe']/100));
+                $sous_total += $product['montant'] *(1 + ($product['taxe']/100));
                 $this->total = $sous_total*(1 - $this->remise/100);
             }
         }

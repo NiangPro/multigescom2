@@ -111,7 +111,7 @@
                             <label for="exampleFormControlSelect1">Pays <span class="text-danger">*</span></label>
                             <select class="form-control @error('form.country_id') is-invalid @enderror" wire:model="form.country_id" id="exampleFormControlSelect1">
                                 @foreach ($country as $c)
-                                    <option value="{{$c->id}}" @if ($c->nom_fr === "Sénégal")
+                                    <option value="{{$c->id}}" @if ($c->id === 193)
                                         selected
                                     @endif >{{$c->nom_fr}}</option>
                                 @endforeach

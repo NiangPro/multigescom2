@@ -5,7 +5,7 @@
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
       <h6>
         <marquee>Votre abonnement prendra fin le {{date("d/m/Y", strtotime(Auth()->user()->entreprise->fermeture))}},
-          Veuillez renouveller votre abonnement.</marquee>
+          Veuillez renouveler votre abonnement ou nous contacter  sur +221 77 399 95 66 ou contact@sunucode.com.</marquee>
         <button wire:click='lunchRenew'  type="button" class="btn btn-success">
           Renouveller
         </button>
@@ -20,7 +20,7 @@
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
       <h6>
         <marquee>Votre abonnement est terminé le {{date("d/m/Y", strtotime(Auth()->user()->entreprise->fermeture))}},
-          Veuillez renouveller votre abonnement. D'ici {{$dayleft}} jour(s) votre espace sera fermé.</marquee>
+          Veuillez renouveler votre abonnement ou Veuillez nous contacter  sur +221 77 399 95 66 ou contact@sunucode.com. D'ici {{$dayleft}} jour(s) votre espace sera fermé.</marquee>
         <button wire:click='lunchRenew' type="button" class="btn btn-success">
           Renouveller
         </button>
@@ -33,9 +33,11 @@
   @elseif(!Auth()->user()->isOpen())
   <div class="container col-md-10 ">
     <div class="alert alert-danger row alert-dismissible fade show" role="alert">
-      <h6 class="col-md-10">Votre espace est fermé </h6>
+      <h6 class="col-md-10">Votre espace a été fermé <br>
+          <span>Renouveler ou Veuillez nous contacter  sur +221 77 399 95 66 ou contact@sunucode.com</span>
+         </h6>
       <button wire:click='lunchRenew' type="button" class="btn col-md-2  btn-success">
-        Renouveller
+        Renouveler
       </button>
 
     </div>

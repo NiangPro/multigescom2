@@ -40,17 +40,10 @@
     <div class="panels-container">
       <div class="panel left-panel">
         <div class="content">
-          <h3>Gescom ?</h3>
-          <p>
-            La gestion commerciale repose sur l'ensemble des tâches liées à
-            l'activité commerciale d'une entreprise. Elle permet de définir
-            une stratégie visant à fixer ses prix de vente, suivre l'évolution
-            des ventes réalisées ainsi que de recueillir des informations sur les
-            clients et fournisseurs de l'entreprise.
-          </p>
-
+          <h1>{{ucfirst($param->entreprise->nom)}}</h1>
+          
+          <img src="{{asset('storage/images/login.png')}}" class="image" alt="" />
         </div>
-        <img src="{{asset('storage/images/login.png')}}" class="image" alt="" />
       </div>
       <div class="panel right-panel">
         <div class="content">

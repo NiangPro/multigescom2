@@ -87,7 +87,7 @@ class Prospects extends Component
 
     public function store(){
         $this->validate();
-        if (isset($this->current_prospect->id) && $this->current_prospect!==null) {
+        if (isset($this->form['id']) && $this->form['id']!==null) {
             $prospect = Prospect::where("id", $this->current_prospect->id)->first();
 
             $prospect->nom = $this->form['nom'];

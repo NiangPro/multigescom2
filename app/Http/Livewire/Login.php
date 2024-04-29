@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Astuce;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -14,6 +15,7 @@ class Login extends Component
         "email" => "",
         "password" => "",
     ];
+    public $param = null;
 
     protected $rules = [
         "form.email" => "required|email",
@@ -25,6 +27,9 @@ class Login extends Component
         if(Auth::check()){
             return redirect(route('home'));
         }
+
+        $this->param = User::where("role", "Super Admin")->first();
+
     }
 
     public function connecter()
@@ -49,4 +54,5 @@ class Login extends Component
             )->layout('layouts.app');
 
     }
+
 }

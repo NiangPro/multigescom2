@@ -22,7 +22,7 @@ class Fournisseurs extends Component
         'adresse' => '',
         'tel' => '',
         'email' => '',
-        'country_id' => '',
+        'country_id' => 193,
         'entreprise_id' => '',
     ];
 
@@ -51,7 +51,7 @@ class Fournisseurs extends Component
         $this->form['adresse']='';
         $this->form['tel']='';
         $this->form['email']='';
-        $this->form['country_id']='';
+        $this->form['country_id']=193;
     }
 
     public function changeEtat($etat){
@@ -74,7 +74,7 @@ class Fournisseurs extends Component
 
     public function store(){
         $this->validate();
-        if(isset($this->current_fournisseur->id) && $this->current_fournisseur->id !== null){
+        if(isset($this->form['id']) && $this->form['id'] !== null){
             $fournisseur = Fournisseur::where("id", $this->current_fournisseur->id)->first();
 
             $fournisseur->nom = $this->form['nom'];
