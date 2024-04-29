@@ -10,8 +10,8 @@ class EmailController extends Controller
 {
     public function sendWelcomeEmail()
     {
-        $title = 'Welcome to the laracoding.com example email';
-        $body = 'Thank you for participating!';
+        $title = 'Renitialisation du mot passe';
+        $body = 'code 4 chiffre envoiye';
 
         Mail::to('fallcodeur@gmail.com')->send(new TestMail($title, $body));
 

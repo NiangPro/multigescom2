@@ -4,27 +4,6 @@
         @if(!$trouve)
           @if(!$trouveCode)
             <form wire:submit.prevent="sendWelcomeEmail"  class="sign-in-form">
-              {{-- <h4 class="title">Confirmez si c'est vous</h4>
-              <div class="input-field">
-                <i class="fas fa-user"></i>
-                <input type="email" wire:model="form.email" class="@error('form.email') is-invalid @enderror" placeholder="Email" required/>
-                @error('form.email')
-                  <span class="invalid-feedback" role="alert">
-                      <strong>{{ $message }}</strong>
-                  </span>
-                @enderror
-              </div>
-              <div class="input-field">
-                <i class="fas fa-phone"></i>
-                <input type="tel" wire:model="form.tel" class="@error('form.tel') is-invalid @enderror" placeholder="Téléphone" required/>
-                @error('form.tel')
-                  <span class="invalid-feedback" role="alert">
-                      <strong>{{ $message }}</strong>
-                  </span>
-                @enderror
-              </div>
-              <input type="submit" value="Confirmer" class="btn solid" />
-              <a href="{{route('login')}}"   >Connexion</a> --}}
               <h4 class="title">Entrer votre adresse email pour recevoir un code</h4>
               <div class="input-field">
                 <i class="fas fa-user"></i>
@@ -140,7 +119,7 @@
     window.addEventListener('accessCode', event =>{
         iziToast.success({
         title: 'Code',
-        message: 'verification code exacte',
+        message: 'verification exacte',
         position: 'topRight'
         });
     });
@@ -148,7 +127,7 @@
     window.addEventListener('sendCode', event =>{
         iziToast.success({
         title: 'Code ',
-        message: 'code envoyé par email avec succes',
+        message: 'envoyé par email avec succes',
         position: 'topRight'
         });
     });

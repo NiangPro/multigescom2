@@ -87,7 +87,7 @@ class PasswordForget extends Component
     {  
         if($this->isExiste()) {
             $this->code = mt_rand(1000, 9999);
-            $title = 'Renitialisation du mot passe demander ; 
+            $title = 'Renitialisation du mot passe; 
             veuiller saisir ce code sur l\'entré afin de pouvoir renitialiser votre mot de passe';
             $body = $this->code;
 
